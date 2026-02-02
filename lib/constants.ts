@@ -317,42 +317,42 @@ export const FAQ = {
     {
       question: '¿Cuánto tarda la implementación?',
       answer:
-        'El setup completo toma 1-2 horas. En el mismo día ya estás operando con tu recepcionista IA.',
+        'El tiempo de implementación depende de la complejidad de tu negocio y el volumen de información a configurar. Nuestro equipo trabaja contigo para que empieces a ver resultados lo antes posible. En la demo te damos un estimado personalizado.',
     },
     {
       question: '¿Necesito conocimientos técnicos?',
       answer:
-        'No. Nosotros hacemos toda la configuración. Tú solo nos das acceso a tu WhatsApp Business y listo.',
+        'No. Nuestro equipo maneja toda la parte técnica. Tú solo necesitas compartir información de tu negocio (servicios, precios, horarios) y nosotros nos encargamos del resto.',
     },
     {
-      question: '¿Mis clientes notarán que es un bot?',
+      question: '¿Mis clientes notarán que es un sistema automatizado?',
       answer:
-        'El bot es muy natural gracias a IA avanzada (GPT-4). Si detecta una pregunta compleja, transfiere al humano automáticamente.',
+        'El sistema está diseñado para conversar de forma natural y contextual. Entiende preguntas complejas y mantiene el tono de tu negocio. Si detecta algo que requiere atención humana, transfiere la conversación automáticamente.',
     },
     {
-      question: '¿Qué pasa si tengo una pregunta que el bot no sabe responder?',
+      question: '¿Qué pasa si surge una pregunta que el sistema no puede responder?',
       answer:
-        'Puedes entrenar al bot en cualquier momento. Además, te notificamos cuando hay preguntas sin respuesta para mejorar.',
+        'El sistema aprende continuamente. Puedes actualizar respuestas en cualquier momento, y te notificamos cuando detectamos preguntas nuevas para que decidas cómo manejarlas.',
     },
     {
-      question: '¿Es seguro? ¿Qué pasa con mis datos?',
+      question: '¿Cómo protegen mis datos y los de mis clientes?',
       answer:
-        '100% seguro. Usamos Google Sheets encriptado y nunca compartimos datos. Cumplimos con GDPR y regulaciones de privacidad.',
+        'Seguridad total. Toda la información se maneja con protocolos de encriptación de nivel empresarial. Nunca compartimos ni vendemos datos. Cumplimos con regulaciones internacionales de privacidad (GDPR, PIPEDA) y estándares de la industria.',
     },
     {
       question: '¿Puedo cancelar en cualquier momento?',
       answer:
-        'Sí, sin compromiso de permanencia. Cancelas cuando quieras sin penalización.',
+        'Sí, sin compromiso de permanencia. Cancelas cuando quieras sin penalización. Tu información se mantiene disponible durante 30 días después de la cancelación por si decides regresar.',
     },
     {
-      question: '¿Funciona con mi sistema actual de citas?',
+      question: '¿Se integra con mi sistema actual?',
       answer:
-        'Sí, nos integramos con Google Calendar, Calendly y la mayoría de sistemas. Si usas algo específico, consúltanos.',
+        'Sí. Nos integramos con la mayoría de sistemas de calendario y gestión (Google Calendar, Calendly, Outlook, y otros). Si usas un sistema específico, consúltanos en la demo para confirmar compatibilidad.',
     },
     {
-      question: '¿Ofrecen garantía?',
+      question: '¿Qué garantías ofrecen?',
       answer:
-        'Sí. Si en los primeros 30 días no ves resultados, te devolvemos el 100% de tu dinero.',
+        'Garantía de 30 días: Si no recuperas mínimo 5X tu inversión mensual, te devolvemos el 100% de tu dinero. Sin preguntas, sin complicaciones. Confiamos en los resultados que generamos.',
     },
   ],
 };
