@@ -148,7 +148,7 @@ export const HOW_IT_WORKS = {
 
 export const BENEFITS = {
   title: 'El ROI de Atendy en números reales',
-  subtitle: 'Inversión de $49/mes que genera $960+ en valor cada mes',
+  subtitle: 'Inversión de $999/mes que genera $15,000+ en valor cada mes',
   items: [
     {
       stat: '20+',
@@ -156,9 +156,9 @@ export const BENEFITS = {
       description: 'Deja de contestar mensajes repetitivos y enfócate en atender clientes',
     },
     {
-      stat: '$640',
-      unit: 'USD recuperados/mes',
-      description: 'En promedio 8 no-shows evitados (cita promedio $80)',
+      stat: '$12,000',
+      unit: 'MXN recuperados/mes',
+      description: 'En promedio 8 no-shows evitados (cita promedio $1,500)',
     },
     {
       stat: '+40%',
@@ -172,19 +172,19 @@ export const BENEFITS = {
     },
   ],
   roi: {
-    value: '1,860',
-    description: 'ROI Total: $960 USD de valor generado vs $49 de inversión',
+    value: '1,400',
+    description: 'ROI Total: $15,000 MXN de valor generado vs $999 de inversión',
   },
 };
 
 export const PRICING = {
   title: 'Planes para cada etapa de tu negocio',
-  subtitle: 'Sin contratos de permanencia. Cancela cuando quieras.',
-  currency: 'USD',
+  subtitle: 'Sin contratos de permanencia. Cancela cuando quieras. Incluye setup fee único inicial.',
+  currency: 'MXN',
   plans: [
     {
       name: 'Básico',
-      price: 29,
+      price: 699,
       period: '/mes',
       description: 'Perfecto para empezar a automatizar',
       features: [
@@ -204,7 +204,7 @@ export const PRICING = {
     },
     {
       name: 'Profesional',
-      price: 49,
+      price: 999,
       period: '/mes',
       description: 'El más popular. Funcionalidad completa.',
       features: [
@@ -225,7 +225,7 @@ export const PRICING = {
     },
     {
       name: 'Premium',
-      price: 99,
+      price: 1999,
       period: '/mes',
       description: 'Para negocios en crecimiento',
       features: [

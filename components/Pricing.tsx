@@ -53,7 +53,7 @@ export default function Pricing() {
                 <div className="mb-8">
                   <div className="flex items-baseline">
                     <span className="text-5xl font-bold text-gray-900">
-                      ${plan.price}
+                      ${plan.price.toLocaleString('es-MX')}
                     </span>
                     <span className="text-gray-600 ml-2">{PRICING.currency}{plan.period}</span>
                   </div>
