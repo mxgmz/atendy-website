@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atendy - Tu Recepcionista IA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-50: #eff6ff;
+            --primary-100: #dbeafe;
+            --primary-200: #bfdbfe;
+            --primary-500: #3b82f6;
+            --primary-600: #2563eb;
+            --primary-700: #1d4ed8;
+            --secondary-500: #10b981;
+            --secondary-600: #059669;
+            --accent-500: #8b5cf6;
+            --accent-600: #7c3aed;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --white: #ffffff;
+            --gradient-primary: linear-gradient(135deg, var(--primary-500), var(--accent-500));
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; overflow: hidden; font-family: 'Inter', sans-serif; background: var(--gray-900); color: var(--gray-900); }
+        .slideshow { width: 100%; height: 100%; position: relative; overflow: hidden; }
+        .slides-wrapper { display: flex; height: 100%; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .slide { min-width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 60px 80px; position: relative; overflow: hidden; }
+        .slide--light { background: var(--white); }
+        .slide--gradient { background: linear-gradient(135deg, var(--primary-50) 0%, #f5f3ff 100%); }
+        .slide--dark { background: var(--gray-900); color: var(--white); }
+        .slide--accent { background: var(--gradient-primary); color: var(--white); }
+        .logo { position: fixed; top: 30px; left: 40px; display: flex; align-items: center; gap: 12px; z-index: 100; }
+        .logo__icon { width: 44px; height: 44px; background: var(--gradient-primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--white); font-weight: 800; font-size: 24px; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
+        .logo__text { font-size: 24px; font-weight: 700; color: var(--gray-900); }
+        .slide--dark .logo__text, .slide--accent .logo__text { color: var(--white); }
+        .slide__pretitle { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 3px; color: var(--primary-500); margin-bottom: 16px; opacity: 0; transform: translateY(20px); animation: fadeInUp 0.6s ease forwards; animation-delay: 0.2s; }
+        .slide--dark .slide__pretitle, .slide--accent .slide__pretitle { color: var(--primary-200); }
+        .slide__title { font-size: clamp(36px, 5vw, 64px); font-weight: 800; line-height: 1.1; text-align: center; margin-bottom: 24px; max-width: 900px; opacity: 0; transform: translateY(20px); animation: fadeInUp 0.6s ease forwards; animation-delay: 0.3s; }
+        .slide__title--gradient { background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .slide__subtitle { font-size: clamp(18px, 2.5vw, 24px); font-weight: 400; line-height: 1.6; text-align: center; max-width: 700px; color: var(--gray-600); opacity: 0; transform: translateY(20px); animation: fadeInUp 0.6s ease forwards; animation-delay: 0.4s; }
+        .slide--dark .slide__subtitle { color: var(--gray-400); }
+        .slide--accent .slide__subtitle { color: rgba(255,255,255,0.9); }
+        .slide__highlight { color: var(--primary-500); font-weight: 600; }
+        .slide--dark .slide__highlight, .slide--accent .slide__highlight { color: var(--secondary-500); }
+        .visual { margin-top: 40px; opacity: 0; transform: translateY(30px); animation: fadeInUp 0.6s ease forwards; animation-delay: 0.5s; }
+        .whatsapp-mockup { background: var(--white); border-radius: 24px; box-shadow: 0 25px 80px rgba(0,0,0,0.15); padding: 20px; width: 320px; position: relative; }
+        .whatsapp-mockup__header { display: flex; align-items: center; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid var(--gray-200); }
+        .whatsapp-mockup__avatar { width: 40px; height: 40px; background: var(--gray-200); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .whatsapp-mockup__name { font-weight: 600; font-size: 15px; }
+        .whatsapp-mockup__status { font-size: 12px; color: var(--gray-500); }
+        .whatsapp-mockup__messages { padding: 20px 0; }
+        .whatsapp-mockup__bubble { background: #dcf8c6; padding: 10px 14px; border-radius: 12px; border-top-right-radius: 4px; max-width: 85%; margin-left: auto; margin-bottom: 8px; font-size: 14px; line-height: 1.4; }
+        .whatsapp-mockup__bubble--incoming { background: var(--white); border: 1px solid var(--gray-200); border-top-left-radius: 4px; border-top-right-radius: 12px; margin-left: 0; margin-right: auto; }
+        .whatsapp-mockup__time { font-size: 11px; color: var(--gray-500); text-align: right; margin-top: 4px; }
+        .whatsapp-mockup__unread { position: absolute; top: 20px; right: 20px; background: #25d366; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; animation: pulse 2s infinite; }
+        .clock { position: absolute; top: 40px; right: 80px; text-align: center; }
+        .clock__time { font-size: 72px; font-weight: 800; color: var(--primary-500); line-height: 1; }
+        .clock__label { font-size: 16px; color: var(--gray-500); margin-top: 8px; }
+        .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 900px; width: 100%; }
+        .comparison__card { background: var(--white); border-radius: 24px; padding: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); text-align: center; }
+        .comparison__card--highlight { background: var(--gradient-primary); color: var(--white); transform: scale(1.05); box-shadow: 0 20px 60px rgba(59, 130, 246, 0.3); }
+        .comparison__title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+        .comparison__price { font-size: 36px; font-weight: 800; margin-bottom: 24px; }
+        .comparison__card--highlight .comparison__price { color: var(--white); }
+        .comparison__list { list-style: none; text-align: left; }
+        .comparison__item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--gray-100); font-size: 15px; }
+        .comparison__card--highlight .comparison__item { border-bottom-color: rgba(255,255,255,0.2); }
+        .comparison__icon { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+        .comparison__icon--check { background: var(--secondary-500); color: var(--white); }
+        .comparison__icon--x { background: #ef4444; color: var(--white); }
+        .stats { display: flex; gap: 60px; margin-top: 40px; }
+        .stat { text-align: center; }
+        .stat__number { font-size: 64px; font-weight: 800; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
+        .slide--dark .stat__number, .slide--accent .stat__number { background: none; -webkit-text-fill-color: var(--secondary-500); color: var(--secondary-500); }
+        .stat__label { font-size: 16px; color: var(--gray-600); margin-top: 8px; }
+        .slide--dark .stat__label, .slide--accent .stat__label { color: rgba(255,255,255,0.8); }
+        .features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 40px; max-width: 700px; }
+        .feature { display: flex; align-items: flex-start; gap: 16px; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 16px; backdrop-filter: blur(10px); }
+        .slide--light .feature, .slide--gradient .feature { background: var(--white); box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+        .feature__icon { width: 48px; height: 48px; background: var(--gradient-primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+        .slide--accent .feature__icon { background: rgba(255,255,255,0.2); }
+        .feature__title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+        .feature__desc { font-size: 14px; color: var(--gray-500); line-height: 1.4; }
+        .slide--dark .feature__desc, .slide--accent .feature__desc { color: rgba(255,255,255,0.7); }
+        .process { display: flex; gap: 24px; margin-top: 40px; }
+        .process__step { display: flex; flex-direction: column; align-items: center; text-align: center; flex: 1; position: relative; }
+        .process__step::after { content: ''; position: absolute; top: 28px; left: 60%; width: 80%; height: 2px; background: var(--gray-200); }
+        .process__step:last-child::after { display: none; }
+        .process__number { width: 56px; height: 56px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; color: var(--white); margin-bottom: 16px; position: relative; z-index: 1; }
+        .process__title { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+        .process__desc { font-size: 14px; color: var(--gray-500); max-width: 160px; }
+        .guarantee { background: var(--white); border-radius: 24px; padding: 40px 60px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); text-align: center; max-width: 500px; }
+        .guarantee__icon { width: 80px; height: 80px; background: var(--secondary-500); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 40px; color: var(--white); }
+        .guarantee__title { font-size: 28px; font-weight: 800; margin-bottom: 16px; color: var(--gray-900); }
+        .guarantee__text { font-size: 16px; color: var(--gray-600); line-height: 1.6; }
+        .cta-button { display: inline-flex; align-items: center; gap: 12px; background: var(--gradient-primary); color: var(--white); padding: 20px 40px; border-radius: 16px; font-size: 20px; font-weight: 700; text-decoration: none; margin-top: 32px; transition: all 0.3s ease; box-shadow: 0 10px 40px rgba(59, 130, 246, 0.4); animation: pulse 2s infinite; }
+        .cta-button:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 20px 60px rgba(59, 130, 246, 0.5); }
+        .slide--accent .cta-button { background: var(--white); color: var(--primary-600); }
+        .cta-button__icon { font-size: 28px; }
+        .contact-info { margin-top: 24px; font-size: 16px; color: var(--gray-500); }
+        .slide--accent .contact-info { color: rgba(255,255,255,0.8); }
+        .contact-info strong { color: var(--gray-900); }
+        .slide--accent .contact-info strong { color: var(--white); }
+        .flow { display: flex; align-items: center; gap: 40px; margin-top: 40px; }
+        .flow__item { background: var(--white); padding: 24px 32px; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); font-weight: 600; font-size: 18px; }
+        .flow__arrow { font-size: 32px; color: var(--primary-500); }
+        .flow__item--bad { border: 2px solid #ef4444; color: #ef4444; }
+        .funnel { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 40px; }
+        .funnel__level { background: var(--primary-100); padding: 16px; text-align: center; font-weight: 500; transition: all 0.3s ease; }
+        .funnel__level:nth-child(1) { width: 400px; border-radius: 16px 16px 0 0; }
+        .funnel__level:nth-child(2) { width: 320px; }
+        .funnel__level:nth-child(3) { width: 240px; background: #fecaca; color: #dc2626; font-weight: 700; position: relative; }
+        .funnel__level:nth-child(3)::after { content: '< Aquí se pierden'; position: absolute; right: -180px; color: #dc2626; font-size: 14px; white-space: nowrap; }
+        .funnel__level:nth-child(4) { width: 160px; border-radius: 0 0 16px 16px; }
+        .chart { display: flex; align-items: flex-end; gap: 60px; margin-top: 40px; }
+        .chart__bar { display: flex; flex-direction: column; align-items: center; }
+        .chart__value { font-size: 48px; font-weight: 800; margin-bottom: 16px; }
+        .chart__bar-visual { width: 120px; border-radius: 12px 12px 0 0; transition: height 0.5s ease; }
+        .chart__bar--before .chart__bar-visual { height: 200px; background: #fecaca; }
+        .chart__bar--after .chart__bar-visual { height: 60px; background: var(--secondary-500); }
+        .chart__label { margin-top: 16px; font-weight: 600; font-size: 16px; }
+        .nav { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 24px; z-index: 100; background: rgba(255,255,255,0.95); padding: 16px 32px; border-radius: 100px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); backdrop-filter: blur(10px); }
+        .nav__btn { width: 48px; height: 48px; border: none; background: var(--gray-100); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 20px; transition: all 0.3s ease; color: var(--gray-600); }
+        .nav__btn:hover { background: var(--primary-500); color: var(--white); transform: scale(1.1); }
+        .nav__btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .nav__dots { display: flex; gap: 8px; }
+        .nav__dot { width: 10px; height: 10px; border-radius: 50%; background: var(--gray-300); border: none; cursor: pointer; transition: all 0.3s ease; }
+        .nav__dot--active { background: var(--primary-500); width: 32px; border-radius: 5px; }
+        .nav__dot:hover { background: var(--primary-400); }
+        .nav__counter { font-size: 14px; font-weight: 600; color: var(--gray-500); min-width: 60px; text-align: center; }
+        .fullscreen-btn { position: fixed; top: 30px; right: 40px; width: 44px; height: 44px; border: none; background: rgba(255,255,255,0.9); border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 20px; transition: all 0.3s ease; z-index: 100; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .fullscreen-btn:hover { background: var(--primary-500); color: var(--white); }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%, 100% { box-shadow: 0 10px 40px rgba(59, 130, 246, 0.4); } 50% { box-shadow: 0 10px 60px rgba(59, 130, 246, 0.6); } }
+        .slide:not(.slide--active) * { animation: none !important; }
+        @media (max-width: 1024px) { .slide { padding: 40px; } .comparison { grid-template-columns: 1fr; gap: 24px; } .comparison__card--highlight { transform: none; } .features { grid-template-columns: 1fr; } .process { flex-direction: column; gap: 32px; } .process__step::after { display: none; } .stats { flex-direction: column; gap: 32px; } .clock { position: relative; top: 0; right: 0; margin-bottom: 32px; } .flow { flex-direction: column; } .flow__arrow { transform: rotate(90deg); } }
+        @media (max-width: 640px) { .slide { padding: 80px 24px 120px; } .logo { top: 20px; left: 20px; } .fullscreen-btn { top: 20px; right: 20px; } .nav { bottom: 20px; padding: 12px 20px; } .nav__btn { width: 40px; height: 40px; } .whatsapp-mockup { width: 280px; } .chart { gap: 32px; } .chart__bar-visual { width: 80px; } .funnel__level:nth-child(3)::after { display: none; } }
+    </style>
+</head>
+<body>
+    <div class="logo"><div class="logo__icon">A</div><span class="logo__text">Atendy</span></div>
+    <button class="fullscreen-btn" onclick="toggleFullscreen()" title="Pantalla completa (F11)"><span>[ ]</span></button>
+    <div class="slideshow">
+        <div class="slides-wrapper" id="slidesWrapper">
+            <section class="slide slide--gradient slide--active">
+                <div class="clock"><div class="clock__time">9:47</div><div class="clock__label">PM - Martes</div></div>
+                <span class="slide__pretitle">Imagina esto...</span>
+                <h1 class="slide__title">Son las 9:47 PM de un martes</h1>
+                <p class="slide__subtitle">Tú ya cerraste el negocio. Estás con tu familia o simplemente descansando.<br><br>Mientras tanto, un cliente potencial te escribe por WhatsApp preguntando <span class="slide__highlight">precio, horarios, disponibilidad.</span></p>
+                <div class="visual">
+                    <div class="whatsapp-mockup">
+                        <div class="whatsapp-mockup__unread">1</div>
+                        <div class="whatsapp-mockup__header"><div class="whatsapp-mockup__avatar">C</div><div><div class="whatsapp-mockup__name">Cliente Nuevo</div><div class="whatsapp-mockup__status">en línea</div></div></div>
+                        <div class="whatsapp-mockup__messages"><div class="whatsapp-mockup__bubble whatsapp-mockup__bubble--incoming">¡Hola! ¿Tienen disponibilidad para mañana en la tarde? ¿Cuánto cuesta la consulta?<div class="whatsapp-mockup__time">9:47 PM</div></div></div>
+                    </div>
+                </div>
+            </section>
+            <section class="slide slide--light">
+                <span class="slide__pretitle">La realidad</span>
+                <h1 class="slide__title">Ese cliente <span class="slide__title--gradient">no espera</span> a mañana</h1>
+                <p class="slide__subtitle">Nadie contesta. Abre Instagram, busca a tu competencia y <span class="slide__highlight">agenda ahí.</span><br><br>Ese dinero no se perdió por precio ni por servicio...</p>
+                <div class="visual">
+                    <div class="flow"><div class="flow__item">Cliente escribe</div><div class="flow__arrow">&#10140;</div><div class="flow__item">Sin respuesta</div><div class="flow__arrow">&#10140;</div><div class="flow__item flow__item--bad">Agenda con competencia</div></div>
+                </div>
+                <div class="stats"><div class="stat"><div class="stat__number">TIEMPO</div><div class="stat__label">La razón #1 de pérdida de clientes</div></div></div>
+            </section>
+            <section class="slide slide--gradient">
+                <span class="slide__pretitle">El verdadero problema</span>
+                <h1 class="slide__title">No es "más marketing"</h1>
+                <p class="slide__subtitle">La mayoría de los negocios creen que el problema es conseguir más clientes.<br><br>El problema está en el <span class="slide__highlight">primer contacto.</span><br>El momento exacto donde el cliente está caliente y tú no estás disponible.</p>
+                <div class="visual">
+                    <div class="funnel"><div class="funnel__level">Marketing / Publicidad</div><div class="funnel__level">Cliente interesado</div><div class="funnel__level">PRIMER CONTACTO</div><div class="funnel__level">Cita agendada</div></div>
+                </div>
+            </section>
+            <section class="slide slide--accent">
+                <span class="slide__pretitle">La solución</span>
+                <h1 class="slide__title">Atendy nace ahí</h1>
+                <p class="slide__subtitle">No como un chatbot. No como un sistema genérico.<br><br>Como una <strong>recepcionista que nunca duerme</strong>, nunca se cansa y nunca olvida tu información.</p>
+                <div class="visual">
+                    <div class="features">
+                        <div class="feature"><div class="feature__icon">&#9889;</div><div><div class="feature__title">Responde en segundos</div><div class="feature__desc">24/7, sin importar la hora</div></div></div>
+                        <div class="feature"><div class="feature__icon">&#128197;</div><div><div class="feature__title">Agenda citas</div><div class="feature__desc">Directamente en tu calendario</div></div></div>
+                        <div class="feature"><div class="feature__icon">&#9989;</div><div><div class="feature__title">Confirma asistencia</div><div class="feature__desc">Recordatorios automáticos</div></div></div>
+                        <div class="feature"><div class="feature__icon">&#128293;</div><div><div class="feature__title">Evita que se enfríen</div><div class="feature__desc">Captura el interés al instante</div></div></div>
+                    </div>
+                </div>
+            </section>
+            <section class="slide slide--light">
+                <span class="slide__pretitle">Piensa en esto con frialdad</span>
+                <h1 class="slide__title">No es una comparación justa</h1>
+                <p class="slide__subtitle">Es un cambio de paradigma</p>
+                <div class="visual">
+                    <div class="comparison">
+                        <div class="comparison__card">
+                            <div class="comparison__title">Recepcionista Humana</div>
+                            <div class="comparison__price">$8,000 - $12,000/mes</div>
+                            <ul class="comparison__list">
+                                <li class="comparison__item"><span class="comparison__icon comparison__icon--x">&#10005;</span>Horarios limitados</li>
+                                <li class="comparison__item"><span class="comparison__icon comparison__icon--x">&#10005;</span>Errores humanos</li>
+                                <li class="comparison__item"><span class="comparison__icon comparison__icon--x">&#10005;</span>Ausencias inevitables</li>
+                                <li class="comparison__item"><span class="comparison__icon comparison__icon--x">&#10005;</span>Vacaciones e incapacidades</li>
+                                <li class="comparison__item"><span class="comparison__icon comparison__icon--x">&#10005;</span>Rotación de personal</li>
+                            </ul>
+                        </div>
+                        <div class="comparison__card comparison__card--highlight">
+                            <div class="comparison__title">Atendy</div>
+                            <div class="comparison__price">Desde $699/mes</div>
+                            <ul class="comparison__list">
+                                <li class="comparison__item"><span class="comparison__icon comparison__icon--check">&#10003;</span>Disponible 24/7</li>
+                                <li class="comparison__item"><span class="comparison__icon comparison__icon--check">&#10003;</span>Sin errores de comunicación</li>
+                                <li class="comparison__item"><span class="comparison__icon comparison__icon--check">&#10003;</span>Siempre disponible</li>
+                                <li class="comparison__item"><span class="comparison__icon comparison__icon--check">&#10003;</span>Sin vacaciones</li>
+                                <li class="comparison__item"><span class="comparison__icon comparison__icon--check">&#10003;</span>Nunca renuncia</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="slide slide--gradient">
+                <span class="slide__pretitle">Y aquí viene lo incómodo</span>
+                <h1 class="slide__title">La fuga <span class="slide__title--gradient">silenciosa</span></h1>
+                <p class="slide__subtitle">La mayoría de los negocios ya están perdiendo entre <span class="slide__highlight">15% y 25%</span> de sus citas por no-shows, mala confirmación o mala comunicación.<br><br>El dinero que crees que "no existe" en realidad ya estaba ahí. Solo no lo estabas capturando.</p>
+                <div class="visual">
+                    <div class="chart">
+                        <div class="chart__bar chart__bar--before"><div class="chart__value" style="color: #dc2626;">25%</div><div class="chart__bar-visual"></div><div class="chart__label">No-shows actuales</div></div>
+                        <div class="chart__bar chart__bar--after"><div class="chart__value" style="color: var(--secondary-500);">8%</div><div class="chart__bar-visual"></div><div class="chart__label">Con Atendy</div></div>
+                    </div>
+                </div>
+                <div class="stats" style="margin-top: 24px;"><div class="stat"><div class="stat__number">-70%</div><div class="stat__label">Reducción de no-shows</div></div></div>
+            </section>
+            <section class="slide slide--light">
+                <span class="slide__pretitle">No es magia</span>
+                <h1 class="slide__title">Inteligencia en cada paso</h1>
+                <p class="slide__subtitle">Atendy reduce los no-shows porque confirma, recuerda, insiste de forma inteligente y sabe cuándo escalarte el problema a ti.</p>
+                <div class="visual">
+                    <div class="process">
+                        <div class="process__step"><div class="process__number">1</div><div class="process__title">Confirma</div><div class="process__desc">Automáticamente después de agendar</div></div>
+                        <div class="process__step"><div class="process__number">2</div><div class="process__title">Recuerda</div><div class="process__desc">24h y 2h antes de la cita</div></div>
+                        <div class="process__step"><div class="process__number">3</div><div class="process__title">Insiste</div><div class="process__desc">De forma inteligente si no responden</div></div>
+                        <div class="process__step"><div class="process__number">4</div><div class="process__title">Escala</div><div class="process__desc">Te notifica cuando es necesario</div></div>
+                    </div>
+                </div>
+            </section>
+            <section class="slide slide--dark">
+                <span class="slide__pretitle">La propuesta</span>
+                <h1 class="slide__title">Un seguro contra la fuga de ingresos</h1>
+                <p class="slide__subtitle">Atendy no se vende como software. Se vende como protección para tu negocio.<br><br>Por eso no hay contratos forzosos. Por eso hay garantía.</p>
+                <div class="visual">
+                    <div class="guarantee">
+                        <div class="guarantee__icon">&#128170;</div>
+                        <div class="guarantee__title">Garantía de 30 días</div>
+                        <div class="guarantee__text">Si no ves valor real, se te devuelve tu dinero.<br><br>Porque cuando un negocio ve cuántas citas recupera en el primer mes, la pregunta deja de ser "¿cuánto cuesta?" y se convierte en <strong>"¿por qué no lo activé antes?"</strong></div>
+                    </div>
+                </div>
+            </section>
+            <section class="slide slide--gradient">
+                <span class="slide__pretitle">La urgencia real</span>
+                <h1 class="slide__title">Tu competencia ya está automatizando</h1>
+                <p class="slide__subtitle">No mañana. <span class="slide__highlight">Hoy.</span><br><br>El cliente se está acostumbrando a respuestas inmediatas, confirmaciones automáticas y cero fricción.</p>
+                <div class="visual" style="max-width: 600px; text-align: center;">
+                    <div style="background: white; padding: 32px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.1);">
+                        <p style="font-size: 24px; color: var(--gray-800); line-height: 1.6;">El negocio que sigue contestando <strong>"cuando puede"</strong> no está siendo humano...</p>
+                        <p style="font-size: 32px; font-weight: 800; color: var(--primary-600); margin-top: 16px;">Está siendo lento.</p>
+                        <p style="font-size: 18px; color: var(--gray-600); margin-top: 24px;">Y en mercados de servicios, la velocidad ya es parte del servicio.</p>
+                    </div>
+                </div>
+            </section>
+            <section class="slide slide--accent">
+                <span class="slide__pretitle">La decisión</span>
+                <h1 class="slide__title">¿Cuántos clientes más estás dispuesto a perder?</h1>
+                <p class="slide__subtitle">Atendy no te promete crecer. Te muestra cuánto estás dejando sobre la mesa y te da el sistema para recuperarlo.<br><br><strong>Desde hoy.</strong></p>
+                <div class="visual">
+                    <a href="https://wa.me/528133655392?text=Hola!%20Me%20interesa%20conocer%20m%C3%A1s%20sobre%20Atendy" class="cta-button" target="_blank"><span class="cta-button__icon">&#128172;</span>Agenda tu demostración</a>
+                    <div class="contact-info"><strong>WhatsApp:</strong> 81 3365 5392</div>
+                </div>
+                <div class="stats" style="margin-top: 48px;">
+                    <div class="stat"><div class="stat__number">30</div><div class="stat__label">Días de garantía</div></div>
+                    <div class="stat"><div class="stat__number">$699</div><div class="stat__label">Desde / mes</div></div>
+                    <div class="stat"><div class="stat__number">24/7</div><div class="stat__label">Siempre activo</div></div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <nav class="nav">
+        <button class="nav__btn" id="prevBtn" onclick="prevSlide()">&#8592;</button>
+        <div class="nav__dots" id="dots"></div>
+        <span class="nav__counter" id="counter">1 / 10</span>
+        <button class="nav__btn" id="nextBtn" onclick="nextSlide()">&#8594;</button>
+    </nav>
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const wrapper = document.getElementById('slidesWrapper');
+        const dotsContainer = document.getElementById('dots');
+        const counter = document.getElementById('counter');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        function createDots() { for (let i = 0; i < totalSlides; i++) { const dot = document.createElement('button'); dot.className = 'nav__dot' + (i === 0 ? ' nav__dot--active' : ''); dot.onclick = () => goToSlide(i); dotsContainer.appendChild(dot); } }
+        function updateNav() { counter.textContent = `${currentSlide + 1} / ${totalSlides}`; document.querySelectorAll('.nav__dot').forEach((dot, i) => { dot.classList.toggle('nav__dot--active', i === currentSlide); }); prevBtn.disabled = currentSlide === 0; nextBtn.disabled = currentSlide === totalSlides - 1; slides.forEach((slide, i) => { slide.classList.toggle('slide--active', i === currentSlide); }); const logoText = document.querySelector('.logo__text'); const currentSlideEl = slides[currentSlide]; if (currentSlideEl.classList.contains('slide--dark') || currentSlideEl.classList.contains('slide--accent')) { logoText.style.color = 'white'; } else { logoText.style.color = '#111827'; } }
+        function goToSlide(index) { if (index < 0 || index >= totalSlides) return; currentSlide = index; wrapper.style.transform = `translateX(-${currentSlide * 100}%)`; updateNav(); }
+        function nextSlide() { if (currentSlide < totalSlides - 1) goToSlide(currentSlide + 1); }
+        function prevSlide() { if (currentSlide > 0) goToSlide(currentSlide - 1); }
+        document.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); } else if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); } else if (e.key === 'Home') { e.preventDefault(); goToSlide(0); } else if (e.key === 'End') { e.preventDefault(); goToSlide(totalSlides - 1); } });
+        let touchStartX = 0; let touchEndX = 0;
+        document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; });
+        document.addEventListener('touchend', (e) => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); });
+        function handleSwipe() { const threshold = 50; const diff = touchStartX - touchEndX; if (Math.abs(diff) > threshold) { if (diff > 0) nextSlide(); else prevSlide(); } }
+        function toggleFullscreen() { if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); }
+        createDots(); updateNav();
+    </script>
+</body>
+</html>
