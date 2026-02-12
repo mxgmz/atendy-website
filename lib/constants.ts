@@ -1,7 +1,8 @@
 export const SITE_CONFIG = {
   name: 'Atendy',
   tagline: 'Tu recepcionista IA que nunca descansa',
-  phone: '+52XXXXXXXXXX', // Reemplazar con tu número de WhatsApp
+  phone: '+52XXXXXXXXXX',
+  whatsappUrl: 'https://wa.me/message/V6YLMUUN6UPAL1',
   email: 'contacto@atendy.com',
   url: 'https://atendy.vercel.app',
   social: {

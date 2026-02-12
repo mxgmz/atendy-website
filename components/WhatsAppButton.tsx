@@ -21,9 +21,7 @@ export default function WhatsAppButton() {
   }, []);
 
   const handleClick = () => {
-    const message = encodeURIComponent('Hola, quiero saber más sobre Atendy');
-    const whatsappUrl = `https://wa.me/${SITE_CONFIG.phone}?text=${message}`;
-    window.open(whatsappUrl, '_blank');
+    window.open(SITE_CONFIG.whatsappUrl, '_blank');
   };
 
   if (!isVisible) return null;
