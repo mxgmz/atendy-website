@@ -253,7 +253,7 @@ export const TESTIMONIALS = {
       image: '/images/testimonial-1.jpg',
       rating: 5,
       quote:
-        'ANTES: 12 no-shows/semana, 40% mensajes sin responder. DESPUÉS: 3 no-shows/semana, 98% respuesta <2min. El bot agenda 67 de 95 citas mensuales automáticamente. Recuperé $11,200 MXN/mes en citas que antes se perdían. ROI en 18 días.',
+        'Yo no creía mucho en esto, pero los números no mienten. Antes perdía entre 10 y 12 citas a la semana solo por no contestar a tiempo. Hoy el sistema responde en segundos y agenda solo. En el primer mes recuperé más de $11,000 pesos que simplemente se me estaban yendo.',
     },
     {
       name: 'Laura Rodríguez',
@@ -261,7 +261,7 @@ export const TESTIMONIALS = {
       image: '/images/testimonial-2.jpg',
       rating: 5,
       quote:
-        'Números exactos: 18 clientas reactivadas en 60 días = $21,600 MXN que NO existían. Google reviews subieron de 12 a 47 en 90 días. Ahora recibo 6-8 llamadas diarias por búsqueda orgánica vs 2-3 antes. El sistema se pagó solo en el mes 1.',
+        'Lo que más me sorprendió fue ver clientas que tenía meses sin aparecer de regreso. El sistema las contactó con una oferta y volvieron solas. En dos meses recuperé 18 clientas y mis reseñas en Google se dispararon. Ahora me llaman más personas que nunca y no gasté un peso en publicidad.',
     },
     {
       name: 'Lic. Ana Martínez',
@@ -269,7 +269,7 @@ export const TESTIMONIALS = {
       image: '/images/testimonial-3.jpg',
       rating: 5,
       quote:
-        'Solo atiendo 6h diarias. Antes perdía 8-10 pacientes/mes por no contestar a tiempo. Ahora el bot agenda mientras yo trabajo. +14 sesiones/mes extras = $16,800 MXN adicionales. No-shows bajaron de 22% a 6%. Comprobable en mi sistema de facturación.',
+        'Mi trabajo requiere concentración total, no puedo estar revisando el teléfono entre sesiones. Antes perdía pacientes simplemente porque no contestaba a tiempo. Ahora el sistema los atiende mientras yo trabajo, y al final del día tengo la agenda llena sin haber hecho nada.',
     },
   ],
 };
